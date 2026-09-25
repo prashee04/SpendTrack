@@ -3,6 +3,8 @@
  * Database access and credential verification live in src/auth.js.
  */
 const authConfig = {
+    // Netlify runs behind a proxy; allow Auth.js to use the forwarded host.
+    trustHost: true,
     pages: { signIn: "/login" },
     session: { strategy: "jwt" },
     providers: [],
