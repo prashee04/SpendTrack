@@ -11,6 +11,10 @@ const credentialsSchema = z.object({
     password: z.string().min(8),
 });
 
+const DEMO_EMAIL = "demo@spendtrack.app";
+const DEMO_PASSWORD = "DemoSpend2026!";
+const DEMO_USER_ID = "000000000000000000000001";
+
 export const { handlers, auth, signIn, signOut } = NextAuth({
     ...authConfig,
     adapter: PrismaAdapter(prisma),
@@ -21,6 +25,19 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
                 password: { label: "Password", type: "password" },
             },
             authorize: async (credentials) => {
+                // The public demo identity is deliberately independent of the
+                // database so the demo login can work when no demo user exists.
+                if (
+                    credentials?.email === DEMO_EMAIL &&
+                    credentials?.password === DEMO_PASSWORD
+                ) {
+                    return {
+                        id: DEMO_USER_ID,
+                        email: DEMO_EMAIL,
+                        name: "Demo User",
+                    };
+                }
+
                 const parsed = credentialsSchema.safeParse(credentials);
                 if (!parsed.success) return null;
 

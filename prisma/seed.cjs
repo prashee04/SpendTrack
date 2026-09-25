@@ -4,6 +4,7 @@ const bcrypt = require("bcryptjs");
 const prisma = new PrismaClient();
 const demoEmail = "demo@spendtrack.app";
 const demoPassword = "DemoSpend2026!";
+const demoUserId = "000000000000000000000001";
 
 const categories = [
     { name: "Salary", icon: "💼", color: "#10b981", type: "INCOME" },
@@ -25,7 +26,7 @@ async function main() {
     const user = await prisma.user.upsert({
         where: { email: demoEmail },
         update: { name: "Demo User", passwordHash },
-        create: { name: "Demo User", email: demoEmail, passwordHash },
+        create: { id: demoUserId, name: "Demo User", email: demoEmail, passwordHash },
     });
 
     for (const category of categories) {
