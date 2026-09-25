@@ -30,15 +30,14 @@ export default function LoginPage() {
     const [error, setError] = useState("");
     const [loading, setLoading] = useState(false);
 
-    async function handleSubmit(e) {
-        if (e) e.preventDefault();
+    async function signInWithCredentials(loginEmail, loginPassword) {
         setError("");
         setLoading(true);
 
         try {
             const result = await signIn("credentials", {
-                email,
-                password,
+                email: loginEmail,
+                password: loginPassword,
                 redirect: false,
             });
 
@@ -64,10 +63,13 @@ export default function LoginPage() {
         }
     }
 
+    async function handleSubmit(e) {
+        e.preventDefault();
+        await signInWithCredentials(email, password);
+    }
+
     function useDemoAccount() {
-        setEmail("demo@spendtrack.app");
-        setPassword("DemoSpend2026!");
-        setError("");
+        return signInWithCredentials("demo@spendtrack.app", "DemoSpend2026!");
     }
 
     return (
@@ -249,10 +251,11 @@ export default function LoginPage() {
                         <Button
                             type="button"
                             variant="outline"
+                            disabled={loading}
                             onClick={useDemoAccount}
                             className="h-9 w-full border-purple-500/30 bg-transparent text-xs text-purple-200 hover:bg-purple-500/10 hover:text-white"
                         >
-                            Fill demo account
+                            {loading ? "Signing in..." : "Sign in as Demo"}
                         </Button>
                     </div>
 
