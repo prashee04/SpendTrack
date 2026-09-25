@@ -54,6 +54,15 @@ NEXTAUTH_SECRET="your-nextauth-secret"
 NEXTAUTH_URL="http://localhost:3000"
 ```
 
+### Demo account
+After configuring `DATABASE_URL`, create the demo login and its default categories:
+
+```bash
+npm run prisma:seed
+```
+
+Use **demo@spendtrack.app** with password **DemoSpend2026!** on the login page. Run the seed command against the production database to enable the demo login on Netlify.
+
 ### 3. Run Development Server
 ```bash
 npm run dev

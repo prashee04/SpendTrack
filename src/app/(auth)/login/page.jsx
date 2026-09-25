@@ -54,6 +54,12 @@ export default function LoginPage() {
         router.refresh();
     }
 
+    function useDemoAccount() {
+        setEmail("demo@spendtrack.app");
+        setPassword("DemoSpend2026!");
+        setError("");
+    }
+
     return (
         <main className="min-h-screen w-full flex bg-slate-950 text-white font-sans overflow-hidden">
             {/* LEFT HERO PANEL - CREATIVE SHOWCASE */}
@@ -227,6 +233,18 @@ export default function LoginPage() {
                             )}
                         </Button>
                     </form>
+
+                    <div className="rounded-lg border border-purple-500/20 bg-purple-500/5 p-3 text-center">
+                        <p className="mb-2 text-xs text-slate-300">Want to explore first?</p>
+                        <Button
+                            type="button"
+                            variant="outline"
+                            onClick={useDemoAccount}
+                            className="h-9 w-full border-purple-500/30 bg-transparent text-xs text-purple-200 hover:bg-purple-500/10 hover:text-white"
+                        >
+                            Fill demo account
+                        </Button>
+                    </div>
 
                     <div className="text-center text-xs text-slate-400 pt-2 border-t border-slate-900">
                         Don&apos;t have an account yet?{" "}
