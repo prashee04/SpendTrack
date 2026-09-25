@@ -35,23 +35,33 @@ export default function LoginPage() {
         setError("");
         setLoading(true);
 
-        const result = await signIn("credentials", {
-            email,
-            password,
-            redirect: false,
-        });
+        try {
+            const result = await signIn("credentials", {
+                email,
+                password,
+                redirect: false,
+            });
 
-        setLoading(false);
+            if (result?.error) {
+                setError("Invalid email or password");
+                toast.error("Invalid credentials!");
+                return;
+            }
 
-        if (result?.error) {
-            setError("Invalid email or password");
-            toast.error("Invalid credentials!");
-            return;
+            if (!result?.url) {
+                throw new Error("Sign-in returned no redirect URL");
+            }
+
+            toast.success("Welcome back!");
+            router.push("/dashboard");
+            router.refresh();
+        } catch (signInError) {
+            console.error("Sign-in request failed:", signInError);
+            setError("Sign-in is temporarily unavailable. Please try again shortly.");
+            toast.error("Could not reach the sign-in service");
+        } finally {
+            setLoading(false);
         }
-
-        toast.success("Welcome back!");
-        router.push("/dashboard");
-        router.refresh();
     }
 
     function useDemoAccount() {
